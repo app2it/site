@@ -29,6 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bb94850de0904b3c807dc6f14a1a56a0"}'></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -58,7 +59,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </div>
     <footer class="site-foot">
       <div class="wrap">
-        <span>Code coming under Apache-2.0. No tracking on this site.</span>
+        <span>Code coming under Apache-2.0. Cookie-free page counts through Cloudflare.</span>
         <ul class="foot-links">
           <li><a href="https://github.com/app2it">GitHub</a></li>
           <li><a href="/docs/">Docs</a></li>

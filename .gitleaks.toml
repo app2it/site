@@ -1,0 +1,8 @@
+# The default rules, plus one exception: the Cloudflare Web Analytics token
+# is public by design, because it ships in every page.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Public Cloudflare Web Analytics site token"
+regexes = ['''bb94850de0904b3c807dc6f14a1a56a0''']

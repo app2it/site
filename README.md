@@ -1,6 +1,6 @@
 # app2it site
 
-The source of [app2it.com](https://app2it.com), built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build). It's static, with no tracking and nothing loaded from other sites.
+The source of [app2it.com](https://app2it.com), built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build). It's static. The only thing it loads from another site is Cloudflare Web Analytics, for cookie-free page counts.
 
 The app2it code isn't public yet. It will be released under Apache-2.0 in [`app2it/app2it`](https://github.com/app2it/app2it).
 

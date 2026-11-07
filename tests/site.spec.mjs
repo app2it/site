@@ -1,6 +1,11 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+// Never count test runs in the real analytics.
+test.beforeEach(async ({ page }) => {
+  await page.route(/cloudflareinsights\.com/, (route) => route.abort());
+});
+
 const pages = ['/', '/for-it/', '/security/', '/cost/', '/docs/'];
 
 for (const path of pages) {
@@ -20,13 +25,15 @@ for (const path of pages) {
       });
     }
 
-    test('loads nothing from other sites, and can be indexed', async ({ page }) => {
+    test('loads only Cloudflare analytics from other sites, and can be indexed', async ({ page }) => {
       const external = [];
       page.on('request', (request) => {
-        if (new URL(request.url()).hostname !== 'localhost') external.push(request.url());
+        const { hostname } = new URL(request.url());
+        if (hostname !== 'localhost' && hostname !== 'static.cloudflareinsights.com') external.push(request.url());
       });
       await page.goto(path, { waitUntil: 'networkidle' });
       expect(external).toEqual([]);
+      await expect(page.locator('script[src="https://static.cloudflareinsights.com/beacon.min.js"][data-cf-beacon]')).toHaveCount(1);
       await expect(page.locator('meta[name="robots"][content*="noindex"]')).toHaveCount(0);
     });
   });
