@@ -1,0 +1,228 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="app2it: the production home for AI-built internal tools"
+  description="Your people are building apps with AI. app2it gives them a path from a laptop to production, inside your own AWS account, behind your existing sign-in, with no per-user fees."
+>
+  <div slot="hero" class="wrap hero">
+    <p class="eyebrow">The production home for AI-built internal tools</p>
+    <h1>Your people are building apps with AI. Give them somewhere to go.</h1>
+    <p class="hero-text">app2it takes tools from a laptop to a production address, inside your own AWS account, where IT can see and govern them. No per-user fees.</p>
+    <div class="actions">
+      <a class="button button-primary" href="#journey">See how it works</a>
+      <a class="button button-quiet" href="mailto:hello@app2it.com">Talk to us</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="wrap section" aria-labelledby="problem-h">
+      <h2 id="problem-h" style="margin-bottom: 40px">Spreadsheets became apps. Then the apps got stuck on one person's computer.</h2>
+      <div class="grid grid-3">
+        <div class="ruled">
+          <h3>The person who built it</h3>
+          <p>It works, and colleagues want it, but sharing it means a ticket, a handover or a workaround.</p>
+        </div>
+        <div class="ruled">
+          <h3>IT and security</h3>
+          <p>Nobody can say what's been built, who uses it, or what data it touches.</p>
+        </div>
+        <div class="ruled">
+          <h3>The organization</h3>
+          <p>Ban the exploration, or pay per seat for separate tools and let data leave your cloud account.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="journey" class="wrap section" aria-labelledby="journey-h">
+      <h2 id="journey-h">From prototype to production</h2>
+      <p class="lede">Say it like "get to it": app2it, app to it. Keep your project in GitHub or in app2it's built-in Git, then deploy from the command line.</p>
+      <div class="cards">
+        <div class="card">
+          <p class="step">1 · On a laptop</p>
+          <h3>Build it with an agent</h3>
+          <p>Use whichever AI tool your organization has approved. Instructions that let an agent run the deploy are coming; we haven't tested that yet.</p>
+        </div>
+        <div class="card">
+          <p class="step">2 · One deploy</p>
+          <h3>Checks run first</h3>
+          <p>The platform looks for likely secrets, a live app with no sign-in, and a project with no owner, before the app goes live.</p>
+        </div>
+        <div class="card">
+          <p class="step">3 · In production</p>
+          <h3>Share a real address</h3>
+          <p>The app gets its own HTTPS address on your domain, behind your company sign-in if you require it.</p>
+        </div>
+      </div>
+      <figure>
+        <div class="terminal" role="img" aria-label="A terminal showing app2it init, then git push app2it main, with checks passing and the app deployed to an HTTPS address.">
+          <div><span class="prompt">$</span> app2it init</div>
+          <div class="out">Created project expense-tracker</div>
+          <div class="gap"><span class="prompt">$</span> git push app2it main</div>
+          <div class="out"># check passed: secrets</div>
+          <div class="out"># check passed: sign-in</div>
+          <div class="out"># check passed: owner</div>
+          <div class="out"># build succeeded in 2s</div>
+          <div># deployed in 14s: https://expense-tracker.apps.example.com</div>
+        </div>
+        <figcaption>Illustrative. Timings are from redeploying one small static test app in November 2026; yours will vary.</figcaption>
+      </figure>
+    </section>
+
+    <section id="governance" class="band" aria-labelledby="gov-h">
+      <div class="wrap section">
+        <h2 id="gov-h">One place to see what's been built</h2>
+        <p class="lede">Because everything deploys the same way, IT can see how each app is used without chasing anyone. A single view of every app is the next step.</p>
+        <figure>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Sample app inventory">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">App</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Sign-in</th>
+                  <th scope="col">People, 30 days</th>
+                  <th scope="col">Last deploy</th>
+                  <th scope="col">Checks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="name">expense-tracker</td><td>Finance team</td><td>Required</td><td>42</td><td>Today</td><td>Passed</td></tr>
+                <tr><td class="name">vendor-review</td><td>Procurement</td><td>Required</td><td>18</td><td>3 days ago</td><td>Passed</td></tr>
+                <tr><td class="name">shift-planner</td><td>Operations</td><td>Required</td><td>7</td><td>Last month</td><td class="warn">Review needed</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figcaption>Sample data, shown as a concept. Usage, sign-in, deploy checks and audit exist today; this combined inventory is in development.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="sso" class="wrap section" aria-labelledby="sso-h">
+      <h2 id="sso-h">Connect your SSO once. Protect every app.</h2>
+      <p class="lede">No new identity provider app for every tool someone builds. app2it is the sign-in boundary, so your existing SSO extends to each new app, and your identity team isn't a bottleneck.</p>
+      <div class="cards">
+        <div class="card">
+          <p class="step">Without app2it</p>
+          <ul>
+            <li>A ticket and a new identity provider app for each tool.</li>
+            <li>Each tool handles sign-in in its own way, or not at all.</li>
+            <li>Someone leaves, and access has to be removed tool by tool.</li>
+          </ul>
+        </div>
+        <div class="card card-dark">
+          <p class="step">With app2it</p>
+          <ul>
+            <li>One connection to your identity provider covers every app.</li>
+            <li>Turn sign-in on for an app with one command.</li>
+            <li>Deactivate someone in your identity provider, and SCIM deactivates their app2it account.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid grid-4" style="margin-top: 32px">
+        <div class="ruled">
+          <h3>Access by team and project</h3>
+          <p>Give a team a role on a project, and grant each app to the teams or people who need it.</p>
+        </div>
+        <div class="ruled">
+          <h3>Groups stay in your identity provider</h3>
+          <p>With SCIM, teams can follow your groups. Add someone to the group and they get access; remove them and it's gone.</p>
+        </div>
+        <div class="ruled">
+          <h3>Apps know who's signed in</h3>
+          <p>Protected apps receive who the user is and their role on every request, so an agent-built tool needs no login screen of its own.</p>
+        </div>
+        <div class="ruled">
+          <h3>Public, when you choose</h3>
+          <p>Make a site public, app by app. Reaching partners through guest accounts in your identity provider is designed, but not yet tested with a real guest.</p>
+        </div>
+      </div>
+      <p class="fineprint">Tested with Okta SSO, live. Other OpenID Connect providers work by configuration; our automated tests use Keycloak.</p>
+    </section>
+
+    <section class="wrap section" aria-labelledby="safe-h">
+      <h2 id="safe-h" style="margin-bottom: 40px">Built for your security team's review</h2>
+      <div class="grid grid-4">
+        <div class="ruled">
+          <h3>Your cloud account</h3>
+          <p>Apps, code and databases stay in your own AWS account. There's no separate vendor to send data to.</p>
+        </div>
+        <div class="ruled">
+          <h3>Your sign-in</h3>
+          <p>Require single sign-on in front of any app, and control access by project and team.</p>
+        </div>
+        <div class="ruled">
+          <h3>A record of what happened</h3>
+          <p>An append-only, hash-chained audit log, with a command that detects changes to it.</p>
+        </div>
+        <div class="ruled">
+          <h3>Tested, and open soon</h3>
+          <p>In our own AWS tests, 14 of 14 attempts by the installer to change its permissions were refused. The code will be public to read.</p>
+        </div>
+      </div>
+      <p style="margin-top: 32px"><a href="/security/" style="font-weight: 600">Start the security review →</a></p>
+    </section>
+
+    <section id="cost" class="wrap section" aria-labelledby="cost-h">
+      <div class="panel">
+        <div>
+          <h2 id="cost-h">No per-user fees</h2>
+          <p>Internal tools work best when anyone can use them, and per-seat pricing penalizes exactly that. Host app2it yourself and you pay only your own cloud costs.</p>
+          <p>It works with GitHub, and doesn't require it. A worked comparison with today's alternatives is coming.</p>
+        </div>
+        <dl class="facts">
+          <div>
+            <dt>app2it software</dt>
+            <dd>Free and open source under Apache-2.0, once the code is released</dd>
+          </div>
+          <div>
+            <dt>Base AWS cost</dt>
+            <dd>As little as about $7 a day, before your apps and traffic<sup><a href="#cost-note" aria-label="Footnote 1: what's included">1</a></sup></dd>
+          </div>
+          <div>
+            <dt>Quiet apps</dt>
+            <dd>Apps run on AWS Lambda, which charges for use. Storage, logs and any database still cost money</dd>
+          </div>
+        </dl>
+      </div>
+      <p id="cost-note" class="footnote"><sup>1</sup> The base platform at AWS list prices in us-east-1, checked November 2026, running around the clock: one m7g.large EC2 host with 100 GB of gp3 storage ($2.22); an Application Load Balancer ($0.54) with AWS WAF ($0.23); a NAT gateway ($1.08); three public IPv4 addresses ($0.36); an interface VPC endpoint across three Availability Zones ($0.72); Aurora Serverless v2 PostgreSQL at its 0.5 ACU minimum ($1.44); and two KMS keys and three Secrets Manager secrets ($0.11). That's $6.70 a day. Your apps and traffic are extra, including Lambda, CloudFront, data transfer, Aurora storage and capacity above the minimum, S3, CloudWatch Logs and Route 53.</p>
+    </section>
+
+    <section class="wrap section" aria-labelledby="fit-h">
+      <h2 id="fit-h" style="margin-bottom: 32px">Is this for you?</h2>
+      <div class="grid grid-2">
+        <div>
+          <h3>Signs you need it</h3>
+          <ul>
+            <li>You've rolled out AI tools, and internal apps are starting to appear.</li>
+            <li>People are asking how to share what they've built.</li>
+            <li>You can't list the apps your organization now depends on.</li>
+            <li>You run on AWS and want these tools to stay in your own account.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>What it runs on today</h3>
+          <ul>
+            <li><strong>Node web apps,</strong> with or without a PostgreSQL database.</li>
+            <li><strong>AWS,</strong> in the Regions that offer Lambda Web Functions.</li>
+            <li><strong>One control-plane host</strong> per install, sized for internal tools rather than high availability.</li>
+            <li><strong>Internal tools first.</strong> An app is an ordinary Node server in your own Git repository, so one that takes off can move to dedicated infrastructure. A guide is coming.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="talk" class="wrap section" aria-labelledby="talk-h" style="padding-top: 0">
+      <div class="cta">
+        <div>
+          <h2 id="talk-h">Give the exploration somewhere to go</h2>
+          <p>Tell us what your people are building, and what you'd need from a platform like this.</p>
+        </div>
+        <div class="actions">
+          <a class="button button-white" href="mailto:hello@app2it.com">Email hello@app2it.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

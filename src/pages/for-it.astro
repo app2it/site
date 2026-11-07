@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  current="for-it"
+  title="app2it for IT and platform leaders"
+  description="How IT and platform leaders can say yes to AI-built internal tools: what you can see, the rules you can set, what it costs, and how a rollout would go."
+>
+  <div slot="hero" class="wrap hero hero-small">
+    <p class="eyebrow">For IT and platform leaders</p>
+    <h1>Say yes to AI-built tools without losing track of them.</h1>
+    <p class="hero-text">People will keep building. app2it gives those tools one route to production, in your AWS account, under rules your team sets.</p>
+  </div>
+
+  <main class="wrap">
+    <div class="page-main section">
+      <section aria-labelledby="see-h">
+        <h2 id="see-h">What you can see today</h2>
+        <div class="grid grid-3">
+          <div class="ruled">
+            <h3>Usage across the platform</h3>
+            <p>Requests, errors, people and estimated cost for each project, with a list of apps needing attention.</p>
+          </div>
+          <div class="ruled">
+            <h3>Who owns what</h3>
+            <p>Every project has roles, and projects left without an active owner get flagged.</p>
+          </div>
+          <div class="ruled">
+            <h3>Who did what</h3>
+            <p>An append-only audit log, with JSON and CloudWatch Logs export for your SIEM.</p>
+          </div>
+        </div>
+        <p class="fineprint">A single inventory of every app, with its owner, sign-in, people, last deploy and check results, is in development. The platform doesn't know what data an app touches, and we won't claim it does.</p>
+      </section>
+
+      <section aria-labelledby="rules-h">
+        <h2 id="rules-h">The rules you can set</h2>
+        <p class="lede">Deploy checks are set for your whole installation, and an agent can't turn them off from inside a repository.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Deploy checks">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Check</th>
+                <th scope="col">Looks for</th>
+                <th scope="col">What it doesn't tell you</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Secrets</th><td>Likely secrets in the deployed files, using gitleaks</td><td>Secrets only in Git history</td></tr>
+              <tr><th scope="row">Sign-in</th><td>Live apps with no sign-in in front of them</td><td>Whether the app handles its data properly</td></tr>
+              <tr><th scope="row">Owner</th><td>Projects with no active owner</td><td>Whether the owner reviewed the app</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fineprint">Each check can be off, report or block. Report mode has been tested on AWS. Block mode has been tested only in automated tests so far. A pass means these mistakes weren't found, not that an app is secure or compliant.</p>
+      </section>
+
+      <section aria-labelledby="cost-h">
+        <h2 id="cost-h">What it costs</h2>
+        <p class="lede">There are no per-user fees. You pay your own AWS bill: as little as about $7 a day for the base platform<sup><a href="#cost-note" aria-label="Footnote 1: what's included">1</a></sup>, plus your apps and traffic. A worked comparison with today's alternatives is coming, so we aren't quoting a savings figure.</p>
+        <p id="cost-note" class="footnote"><sup>1</sup> The base platform at AWS list prices in us-east-1, checked November 2026, running around the clock: one m7g.large EC2 host with 100 GB of gp3 storage ($2.22); an Application Load Balancer ($0.54) with AWS WAF ($0.23); a NAT gateway ($1.08); three public IPv4 addresses ($0.36); an interface VPC endpoint across three Availability Zones ($0.72); Aurora Serverless v2 PostgreSQL at its 0.5 ACU minimum ($1.44); and two KMS keys and three Secrets Manager secrets ($0.11). That's $6.70 a day. Your apps and traffic are extra, including Lambda, CloudFront, data transfer, Aurora storage and capacity above the minimum, S3, CloudWatch Logs and Route 53.</p>
+      </section>
+
+      <section aria-labelledby="rollout-h">
+        <h2 id="rollout-h">How a rollout would go</h2>
+        <p class="lede">A suggested order, once the code is released.</p>
+        <ol class="steps">
+          <li><p class="step">1 · Security</p><h3>Review it first</h3><p>Start with the <a href="/security/">security review page</a>, including its known limits.</p></li>
+          <li><p class="step">2 · Install</p><h3>Use a restricted role</h3><p>Your team applies a small bootstrap, and a restricted installer sets up the platform in your account.</p></li>
+          <li><p class="step">3 · Sign-in</p><h3>Connect your SSO</h3><p>One connection to your identity provider, with SCIM if you want accounts to follow it.</p></li>
+          <li><p class="step">4 · Pilot</p><h3>Start with a few builders</h3><p>Put checks in report mode, and see what they find in real apps.</p></li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="fit-h">
+        <h2 id="fit-h">When it isn't the right fit</h2>
+        <ul>
+          <li>You need another cloud. app2it runs on AWS.</li>
+          <li>Your apps aren't Node. Python tools such as Streamlit won't run on it today.</li>
+          <li>You need high availability for the platform itself. There's one control-plane host per install.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="talk-h">
+        <div class="cta">
+          <div>
+            <h2 id="talk-h">Tell us what your people are building</h2>
+            <p>We'd like to hear what you'd need from a platform like this.</p>
+          </div>
+          <div class="actions">
+            <a class="button button-white" href="mailto:hello@app2it.com">Email hello@app2it.com</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</Base>

@@ -1,0 +1,166 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  current="security"
+  title="app2it security review"
+  description="For security and compliance reviewers: where app2it runs, what it stores, who can reach it, what's been tested and what hasn't."
+>
+  <div slot="hero" class="wrap hero hero-small">
+    <p class="eyebrow">For security and compliance reviewers</p>
+    <h1>It runs in your AWS account. Here's how it holds up.</h1>
+    <p class="hero-text">There's no vendor service behind it and no telemetry, and the code will be public to read. This page shows what it stores, who can reach it, what we've tested and what we haven't.</p>
+  </div>
+
+  <div class="wrap columns">
+    <nav class="toc" aria-label="On this page">
+      <ul>
+        <li><a href="#answers">Quick answers</a></li>
+        <li><a href="#boundary">What's in your account</a></li>
+        <li><a href="#identity">Sign-in and access</a></li>
+        <li><a href="#data">Data and encryption</a></li>
+        <li><a href="#code">AI-built code</a></li>
+        <li><a href="#install">Least-privilege install</a></li>
+        <li><a href="#evidence">Evidence</a></li>
+        <li><a href="#limits">Known limits</a></li>
+        <li><a href="#report">Report a vulnerability</a></li>
+      </ul>
+    </nav>
+
+    <main class="page-main">
+      <section id="answers" aria-labelledby="answers-h">
+        <h2 id="answers-h">Quick answers</h2>
+        <dl class="answers">
+          <div><dt>Does any data leave our cloud?</dt><dd>Not to us. It runs in your AWS account, with no app2it-operated service and no telemetry. Your identity provider and any registries or services you connect are yours to approve.</dd></div>
+          <div><dt>How are apps isolated from each other?</dt><dd>Apps run on AWS Lambda Web Functions. <a href="https://aws.amazon.com/lambda/faqs/">AWS documents</a> that each execution environment runs in its own dedicated Firecracker microVM, with no kernel or memory shared between environments. That's AWS's isolation, not something app2it adds. Builds differ; see the known limits.</dd></div>
+          <div><dt>Who can sign in?</dt><dd>People in your identity provider who have an app2it account, created by SCIM or an admin. MFA is enforced by your provider.</dd></div>
+          <div><dt>Can apps be required to use sign-in?</dt><dd>An installation can be set to block live deploys without it, and a public app then needs an admin's recorded exemption. Blocking has been tested in automated tests, but not yet on AWS.</dd></div>
+          <div><dt>Can we see who did what?</dt><dd>Yes. An append-only, hash-chained audit log, with JSON and CloudWatch Logs export for your SIEM.</dd></div>
+          <div><dt>Does the installer need admin rights?</dt><dd>No. Your team applies a small bootstrap, and it creates a restricted role that can't change its own permissions.</dd></div>
+          <div><dt>Is it certified?</dt><dd>No. ISO 27001 certifies your organization, not software. We've mapped which Annex A controls it provides and supports, and which stay yours; that mapping will be published with the guides.</dd></div>
+        </dl>
+      </section>
+
+      <section id="boundary" aria-labelledby="boundary-h">
+        <h2 id="boundary-h">What's in your account</h2>
+        <p class="lede">Everything inside the dark box runs in your account, under your keys and your logs.</p>
+        <figure role="img" aria-label="Your identity provider and your people connect through the edge to the control plane and apps, all inside your AWS account, with data stores behind them.">
+          <div class="map-row">
+            <div class="map-box"><strong>Your identity provider</strong><span>OIDC sign-in and SCIM</span></div>
+            <div class="map-box"><strong>Builders and agents</strong><span>CLI, Git over HTTPS, console</span></div>
+            <div class="map-box"><strong>People using apps</strong><span>HTTPS, behind sign-in if required</span></div>
+          </div>
+          <div class="map-account">
+            <p>Your AWS account</p>
+            <div class="map-dark"><strong>Edge</strong><span>CloudFront, load balancer and WAF with rate limits</span></div>
+            <div class="map-row">
+              <div class="map-dark map-dark-key"><strong>app2it control plane</strong><span>Sign-in boundary, access, deploy checks and audit, on a private host with no public IP</span></div>
+              <div class="map-dark"><strong>Your apps</strong><span>AWS Lambda Web Functions, with an optional per-project runtime role</span></div>
+            </div>
+            <div class="map-dark"><strong>Data</strong><span>Aurora PostgreSQL, S3, Secrets Manager, KMS and CloudWatch Logs</span></div>
+          </div>
+        </figure>
+      </section>
+
+      <section id="identity" aria-labelledby="identity-h">
+        <h2 id="identity-h">Sign-in and access</h2>
+        <p class="lede">One connection to your identity provider, instead of one integration per app. Tested with Okta SSO, live; other OpenID Connect providers work by configuration.</p>
+        <div class="grid grid-3">
+          <div class="ruled"><h3>Offboarding follows your provider</h3><p>SCIM deactivates accounts, and disabling a user takes effect at once.</p></div>
+          <div class="ruled"><h3>Access by role</h3><p>Organizations, teams and project roles, with scoped API tokens. Teams can follow your groups.</p></div>
+          <div class="ruled"><h3>Credentials stored as hashes</h3><p>Tokens and session secrets are kept only as SHA-256 hashes. SSO CLI tokens expire after 12 hours.</p></div>
+        </div>
+      </section>
+
+      <section id="data" aria-labelledby="data-h">
+        <h2 id="data-h">Data and encryption</h2>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Where data is stored and who can read it">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Data</th>
+                <th scope="col">Where</th>
+                <th scope="col">Encryption at rest</th>
+                <th scope="col">Who can read it</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Source code</th><td>Host disk; versioned S3 backups</td><td>Encrypted EBS; your KMS key for backups</td><td>The project's roles; the host</td></tr>
+              <tr><th scope="row">Secrets and variables</th><td>Metadata database</td><td>Envelope encryption, customer-managed KMS key</td><td>Project builders and up; secret values are write-only; the running app</td></tr>
+              <tr><th scope="row">App databases</th><td>Aurora, one database and role per project</td><td>Encrypted; your KMS key on new installs</td><td>The app; maintainers, audited</td></tr>
+              <tr><th scope="row">Audit log</th><td>Metadata database; CloudWatch Logs</td><td>Your KMS key for the export</td><td>Platform admins; your SIEM</td></tr>
+              <tr><th scope="row">Build bundles</th><td>Versioned S3</td><td>SSE-S3</td><td>Lambda; the control plane</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fineprint">In transit: TLS 1.2 or later at the edge, TLS to Aurora with CA verification, and HTTPS for AWS APIs.</p>
+      </section>
+
+      <section id="code" aria-labelledby="code-h">
+        <h2 id="code-h">AI-built code</h2>
+        <p class="lede">Deploy checks run before any of the app's code. Each is off, report or block for your whole installation, and an agent can't turn them off from inside the repository.</p>
+        <div class="cards">
+          <div class="card">
+            <h3>What they catch today</h3>
+            <ul>
+              <li>Likely secrets in the deployed files, using gitleaks</li>
+              <li>Live apps without sign-in</li>
+              <li>Projects without an active owner</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>What they don't</h3>
+            <ul>
+              <li>Vulnerable dependencies or insecure code</li>
+              <li>Secrets only in Git history</li>
+              <li>Whether an app handles its data properly</li>
+            </ul>
+          </div>
+        </div>
+        <p class="fineprint">Passing means these mistakes weren't found, not that an app is secure or compliant. Admin overrides need a reason and are audited. Builds run in containers with an egress firewall; disposable EC2 builds are optional.</p>
+      </section>
+
+      <section id="install" aria-labelledby="install-h">
+        <h2 id="install-h">Least-privilege install</h2>
+        <ol class="steps">
+          <li><p class="step">1 · Your security team</p><h3>Applies the bootstrap</h3><p>A small, reviewable Terraform module creates the role, its grant and two permissions boundaries.</p></li>
+          <li><p class="step">2 · The restricted installer</p><h3>Installs the platform</h3><p>It can launch only the approved image, subnet and profile, and can't delete data or edit its own role.</p></li>
+          <li><p class="step">3 · The running platform</p><h3>Stays inside a boundary</h3><p>Per-project runtime roles can be limited to writing that app's own logs.</p></li>
+        </ol>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-h">
+        <h2 id="evidence-h">Evidence</h2>
+        <p class="lede">From our own temporary test installations on real AWS, not an independent audit. Once the code is public, you can rerun the simulator checks against your own account.</p>
+        <ul class="plain-list">
+          <li><strong>14 of 14</strong><span>Attempts to change the installer's own permissions or the boundaries were denied. November 2026.</span></li>
+          <li><strong>282 of 282</strong><span>IAM simulator cases gave the expected decision, using synthetic context. November 2026.</span></li>
+          <li><strong>27 of 27</strong><span>Forbidden actions were denied in the first restricted install. October 2026.</span></li>
+          <li><strong>Isolated builds</strong><span>Metadata blocked, with no credentials or direct egress inside the build guest. October 2026.</span></li>
+        </ul>
+      </section>
+
+      <section id="limits" aria-labelledby="limits-h">
+        <div class="limits">
+          <h2 id="limits-h">Known limits</h2>
+          <ul>
+            <li><strong>The code isn't public yet.</strong> You can't read or run it today.</li>
+            <li><strong>No independent audit:</strong> no third party has done a penetration test or audit.</li>
+            <li><strong>Builds differ from running apps:</strong> builds run in containers on the control-plane host by default, unless you turn on disposable EC2 builds.</li>
+            <li><strong>Previews use production data:</strong> a preview shares its project's database and variables, so a preview link grants the same data access as the live app.</li>
+            <li><strong>One control-plane host:</strong> no high availability yet. By design, live apps are served by Lambda and CloudFront rather than the host, but sign-in, deploys, management and scheduled jobs depend on it. We haven't tested a host outage.</li>
+            <li><strong>No logged hard delete or project export yet.</strong></li>
+            <li><strong>Brand-new AWS accounts</strong> haven't been tested end to end.</li>
+            <li><strong>Some AWS services allow only request-tag checks,</strong> so a few risks remain in what the installer can adopt. The guides will detail them.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="report" aria-labelledby="report-h">
+        <h2 id="report-h">Report a vulnerability</h2>
+        <p>Email <a href="mailto:security@app2it.com">security@app2it.com</a>. Please don't open a public issue. We don't promise a response time; this is a small project.</p>
+      </section>
+    </main>
+  </div>
+</Base>

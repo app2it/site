@@ -1,0 +1,71 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/site.css';
+
+interface Props {
+  title: string;
+  description: string;
+  current?: 'for-it' | 'security';
+}
+
+const { title, description, current } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="app2it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-head">
+      <div class="wrap">
+        <nav class="site-nav" aria-label="Main">
+          <a class="logo" href="/">app<span>2</span>it</a>
+          <ul class="nav-links">
+            <li><a href="/#journey">How it works</a></li>
+            <li><a href="/for-it/" aria-current={current === 'for-it' ? 'page' : undefined}>For IT</a></li>
+            <li><a href="/security/" aria-current={current === 'security' ? 'page' : undefined}>Security</a></li>
+            <li><a href="/#cost">Cost</a></li>
+            <li><a href="/docs/">Docs</a></li>
+          </ul>
+          <a class="button button-quiet nav-github" href="https://github.com/app2it">GitHub</a>
+        </nav>
+      </div>
+      <slot name="hero" />
+    </header>
+    <div class="notice" role="region" aria-label="Project status">
+      <p class="wrap">
+        <strong>The code isn't public yet.</strong> It will be released under Apache-2.0, and there's no date yet. <a href="mailto:hello@app2it.com">Tell us what you'd need from it</a>.
+      </p>
+    </div>
+    <div id="main" tabindex="-1">
+      <slot />
+    </div>
+    <footer class="site-foot">
+      <div class="wrap">
+        <span>Code coming under Apache-2.0. No tracking on this site.</span>
+        <ul class="foot-links">
+          <li><a href="https://github.com/app2it">GitHub</a></li>
+          <li><a href="/docs/">Docs</a></li>
+          <li><a href="/security/">Security</a></li>
+          <li><a href="/security/#report">Report a vulnerability</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
