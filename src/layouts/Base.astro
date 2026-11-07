@@ -7,7 +7,7 @@ import '../styles/site.css';
 interface Props {
   title: string;
   description: string;
-  current?: 'for-it' | 'security';
+  current?: 'for-it' | 'security' | 'cost';
 }
 
 const { title, description, current } = Astro.props;
@@ -40,7 +40,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
             <li><a href="/#journey">How it works</a></li>
             <li><a href="/for-it/" aria-current={current === 'for-it' ? 'page' : undefined}>For IT</a></li>
             <li><a href="/security/" aria-current={current === 'security' ? 'page' : undefined}>Security</a></li>
-            <li><a href="/#cost">Cost</a></li>
+            <li><a href="/cost/" aria-current={current === 'cost' ? 'page' : undefined}>Cost</a></li>
             <li><a href="/docs/">Docs</a></li>
           </ul>
           <a class="button button-quiet nav-github" href="https://github.com/app2it">GitHub</a>
@@ -63,6 +63,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           <li><a href="https://github.com/app2it">GitHub</a></li>
           <li><a href="/docs/">Docs</a></li>
           <li><a href="/security/">Security</a></li>
+          <li><a href="/cost/">Cost</a></li>
           <li><a href="/security/#report">Report a vulnerability</a></li>
         </ul>
       </div>

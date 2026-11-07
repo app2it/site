@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  current="cost"
+  title="What app2it costs to run"
+  description="No per-user fees. The resources app2it's base platform runs on in your AWS account, what each costs at list prices, and what's extra."
+>
+  <div slot="hero" class="wrap hero hero-small">
+    <p class="eyebrow">Cost</p>
+    <h1>No per-user fees. Here's your AWS bill.</h1>
+    <p class="hero-text">app2it runs in your own AWS account, so you pay AWS directly. The base platform costs as little as about $7 a day, before your apps and traffic.</p>
+  </div>
+
+  <main class="wrap">
+    <div class="page-main section">
+      <section aria-labelledby="base-h">
+        <h2 id="base-h">The base platform, line by line</h2>
+        <p class="lede">At AWS list prices in us-east-1, checked November 2026, running around the clock. This is our estimate, not a quote or a billing forecast. Your prices and Region may differ.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Base platform cost by AWS resource">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">AWS resource</th>
+                <th scope="col">What it's for</th>
+                <th scope="col">List price</th>
+                <th scope="col" class="num">Per day</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">EC2 <code>m7g.large</code>, one instance</th><td>The control-plane host: API, Git server and builds</td><td>$0.0816 an hour</td><td class="num">$1.96</td></tr>
+              <tr><th scope="row">EBS gp3, 100 GB</th><td>The host's disk</td><td>$0.08 per GB a month</td><td class="num">$0.26</td></tr>
+              <tr><th scope="row">Aurora Serverless v2 PostgreSQL, 0.5 ACU</th><td>Platform data and app databases, at the minimum capacity</td><td>$0.12 per ACU an hour</td><td class="num">$1.44</td></tr>
+              <tr><th scope="row">NAT gateway, one</th><td>Outbound internet access for the private network</td><td>$0.045 an hour</td><td class="num">$1.08</td></tr>
+              <tr><th scope="row">Interface VPC endpoint, three Availability Zones</th><td>Private access to Secrets Manager</td><td>$0.01 per zone an hour</td><td class="num">$0.72</td></tr>
+              <tr><th scope="row">Application Load Balancer, one</th><td>The way in to the API, Git and console</td><td>$0.0225 an hour</td><td class="num">$0.54</td></tr>
+              <tr><th scope="row">Public IPv4 addresses, three</th><td>Two for the load balancer, one for the NAT gateway</td><td>$0.005 per address an hour</td><td class="num">$0.36</td></tr>
+              <tr><th scope="row">AWS WAF, one web ACL and two rules</th><td>Rate limits and IP reputation in front of the API</td><td>$7 a month</td><td class="num">$0.23</td></tr>
+              <tr><th scope="row">KMS, two keys</th><td>Encrypting secrets and platform data</td><td>$1 per key a month</td><td class="num">$0.07</td></tr>
+              <tr><th scope="row">Secrets Manager, three secrets</th><td>Host settings, the log token and the database login</td><td>$0.40 per secret a month</td><td class="num">$0.04</td></tr>
+            </tbody>
+            <tfoot>
+              <tr><th scope="row" colspan="3">Base platform total, about $204 a month</th><td class="num"><strong>$6.70</strong></td></tr>
+            </tfoot>
+          </table>
+        </div>
+        <p class="fineprint">Monthly prices are converted at 30.4 days a month. Per-request charges for WAF, KMS and Secrets Manager are counted under usage below.</p>
+      </section>
+
+      <section aria-labelledby="extra-h">
+        <h2 id="extra-h">What's extra</h2>
+        <p class="lede">These depend on what you run, so they aren't in the total.</p>
+        <div class="grid grid-3">
+          <div class="ruled"><h3>Your apps</h3><p>Lambda compute and requests, and CloudWatch Logs for each app.</p></div>
+          <div class="ruled"><h3>Traffic</h3><p>CloudFront, data transfer, and processing charges on the load balancer and NAT gateway.</p></div>
+          <div class="ruled"><h3>Data</h3><p>Aurora storage and any capacity above the minimum, plus S3 for bundles and backups.</p></div>
+          <div class="ruled"><h3>Your domain</h3><p>Route 53 hosted zones and queries, and the domain itself.</p></div>
+          <div class="ruled"><h3>Optional features</h3><p>Disposable EC2 builds and their proxy, if you turn them on.</p></div>
+          <div class="ruled"><h3>Requests</h3><p>Per-request charges for WAF, KMS and Secrets Manager.</p></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="free-h">
+        <h2 id="free-h">What you don't pay</h2>
+        <ul>
+          <li><strong>No per-user fees.</strong> Adding people to an app costs nothing extra from us.</li>
+          <li><strong>No license fee.</strong> The software will be free and open source under Apache-2.0, once the code is released.</li>
+          <li><strong>No separate Git host required.</strong> It has built-in Git, and works with GitHub if you have it.</li>
+        </ul>
+        <p class="fineprint">A worked comparison with today's alternatives is coming, so we aren't quoting a savings figure. Your own team's time to run the platform isn't counted here.</p>
+      </section>
+
+      <section aria-labelledby="check-h">
+        <h2 id="check-h">Check the prices yourself</h2>
+        <p>AWS publishes these rates: <a href="https://aws.amazon.com/ec2/pricing/on-demand/">EC2</a>, <a href="https://aws.amazon.com/ebs/pricing/">EBS</a>, <a href="https://aws.amazon.com/rds/aurora/pricing/">Aurora</a>, <a href="https://aws.amazon.com/vpc/pricing/">VPC, NAT gateways and public IPv4</a>, <a href="https://aws.amazon.com/elasticloadbalancing/pricing/">load balancers</a>, <a href="https://aws.amazon.com/waf/pricing/">WAF</a>, <a href="https://aws.amazon.com/kms/pricing/">KMS</a> and <a href="https://aws.amazon.com/secrets-manager/pricing/">Secrets Manager</a>.</p>
+      </section>
+    </div>
+  </main>
+</Base>

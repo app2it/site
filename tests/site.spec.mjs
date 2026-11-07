@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const pages = ['/', '/for-it/', '/security/', '/docs/'];
+const pages = ['/', '/for-it/', '/security/', '/cost/', '/docs/'];
 
 for (const path of pages) {
   test.describe(path, () => {
@@ -33,9 +33,20 @@ for (const path of pages) {
 }
 
 test('says the code is not public yet, and offers no install command', async ({ page }) => {
-  for (const path of ['/', '/for-it/', '/security/']) {
+  for (const path of ['/', '/for-it/', '/security/', '/cost/']) {
     await page.goto(path);
     await expect(page.locator('.notice')).toContainText("The code isn't public yet");
     await expect(page.locator('body')).not.toContainText(/npm install|brew install|curl -/);
   }
+});
+
+test('the cost table adds up to the stated total', async ({ page }) => {
+  await page.goto('/cost/');
+  const cells = await page.locator('tbody td.num').allTextContents();
+  const sum = cells.reduce((total, cell) => total + Number(cell.replace('$', '')), 0);
+  const total = Number((await page.locator('tfoot td.num').textContent()).replace('$', ''));
+  expect(sum.toFixed(2)).toBe(total.toFixed(2));
+  await page.goto('/');
+  await expect(page.locator('#cost')).toContainText('As little as about $7 a day');
+  await expect(page.locator('#cost a[href="/cost/"]').first()).toBeVisible();
 });

@@ -163,3 +163,5 @@ td.warn { color: #f2c27a; }
 .footnote { margin-top: 16px; font-size: 14px; color: var(--muted); max-width: 900px; }
 .footnote:target { background: #fff8ef; outline: 1px solid #e6c9a3; outline-offset: 4px; }
 sup a { padding-inline: 3px; font-weight: 600; }
+.num { text-align: right; white-space: nowrap; }
+tfoot th, tfoot td { border-top: 2px solid var(--ink); border-bottom: 0; }

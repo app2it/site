@@ -170,6 +170,7 @@ import Base from '../layouts/Base.astro';
           <h2 id="cost-h">No per-user fees</h2>
           <p>Internal tools work best when anyone can use them, and per-seat pricing penalizes exactly that. Host app2it yourself and you pay only your own cloud costs.</p>
           <p>It works with GitHub, and doesn't require it. A worked comparison with today's alternatives is coming.</p>
+          <p><a href="/cost/" style="font-weight: 600">See the full cost breakdown →</a></p>
         </div>
         <dl class="facts">
           <div>
@@ -186,7 +187,7 @@ import Base from '../layouts/Base.astro';
           </div>
         </dl>
       </div>
-      <p id="cost-note" class="footnote"><sup>1</sup> The base platform at AWS list prices in us-east-1, checked November 2026, running around the clock: one m7g.large EC2 host with 100 GB of gp3 storage ($2.22); an Application Load Balancer ($0.54) with AWS WAF ($0.23); a NAT gateway ($1.08); three public IPv4 addresses ($0.36); an interface VPC endpoint across three Availability Zones ($0.72); Aurora Serverless v2 PostgreSQL at its 0.5 ACU minimum ($1.44); and two KMS keys and three Secrets Manager secrets ($0.11). That's $6.70 a day. Your apps and traffic are extra, including Lambda, CloudFront, data transfer, Aurora storage and capacity above the minimum, S3, CloudWatch Logs and Route 53.</p>
+      <p id="cost-note" class="footnote"><sup>1</sup> At AWS list prices in us-east-1, checked November 2026: the control-plane host and its disk, a load balancer with WAF, a NAT gateway, public IP addresses, a VPC endpoint, Aurora at its minimum capacity, and keys and secrets. <a href="/cost/">See every resource and price</a>.</p>
     </section>
 
     <section class="wrap section" aria-labelledby="fit-h">
